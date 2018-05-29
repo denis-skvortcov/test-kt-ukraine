@@ -118,5 +118,10 @@
       }
     }
   },
-  "defaultProject": "test-kt-ukraine"
+  "defaultProject": "test-kt-ukraine",
+  "defaults": {
+    "styleExt": "scss",
+    "component": {
+    }
+  }
 }
