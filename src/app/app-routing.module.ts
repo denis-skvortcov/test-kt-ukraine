@@ -1,7 +1,8 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {AuthComponent} from './auth/auth.component';
 import {AppComponent} from './app.component';
+import {AuthComponent} from './auth/auth.component';
+import {RegistrationComponent} from './registaration/registration.component';
 
 const routes: Routes = [
   {
@@ -11,11 +12,10 @@ const routes: Routes = [
       {
         path: 'auth',
         component: AuthComponent,
-        canActivate:[]
       },
       {
         path: 'registration',
-        component: AuthComponent,
+        component: RegistrationComponent,
       },
       {
         path: 'questionnaire',
@@ -26,7 +26,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
+  imports: [RouterModule.forRoot(routes, {useHash: false})],
   exports: [RouterModule],
 })
 export class AppRoutingModule {
