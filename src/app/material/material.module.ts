@@ -1,5 +1,5 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {ModuleWithProviders, NgModule} from '@angular/core';
+
 import {
   MatGridListModule,
   MatCardModule,
@@ -35,8 +35,9 @@ import {
   MatTableModule,
   MatTabsModule,
   MatTooltipModule,
-  MatTreeModule
+  MatTreeModule, GestureConfig
 } from '@angular/material';
+import {HAMMER_GESTURE_CONFIG} from '@angular/platform-browser';
 
 const material = [
   MatGridListModule,
@@ -78,7 +79,6 @@ const material = [
 
 @NgModule({
   imports: [
-    CommonModule,
     ...material
   ],
   exports: [
@@ -88,9 +88,12 @@ const material = [
 })
 export class MaterialModule {
 
-  static forRoot() {
+  static forRoot(): ModuleWithProviders {
     return {
-      ngModule: MaterialModule
+      ngModule: MaterialModule,
+      providers: [
+        {provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig},
+      ]
     };
   }
 }

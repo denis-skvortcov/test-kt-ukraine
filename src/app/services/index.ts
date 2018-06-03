@@ -1,1 +1,2 @@
-export {AuthService} from './auth.service'
+export {AuthService} from './auth/auth.service';
+export {NotifyService} from './notify/notify.service';

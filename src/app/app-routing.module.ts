@@ -1,14 +1,17 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {AppComponent} from './app.component';
 import {AuthComponent} from './auth/auth.component';
 import {RegistrationComponent} from './registaration/registration.component';
+import {UserIsAuthGuard} from './guards';
+import {QuestionnaireService} from './questionnaire/services';
 
 const routes: Routes = [
   {
     path: '',
     component: AppComponent,
     children: [
+      {path: '', redirectTo: '/questionnaire', pathMatch: 'full'},
       {
         path: 'auth',
         component: AuthComponent,
@@ -19,8 +22,10 @@ const routes: Routes = [
       },
       {
         path: 'questionnaire',
-        component: AuthComponent,
-      },
+        loadChildren: './questionnaire/questionnaire.module#QuestionnaireModule',
+        resolve: [QuestionnaireService],
+        canActivate: [UserIsAuthGuard]
+      }
     ]
   }
 ];

@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase';
+import {AuthService} from '../services';
 
 @Component({
   selector: 'app-registaration',
@@ -16,6 +17,7 @@ export class RegistrationComponent {
   public registrationForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
+              private auth: AuthService,
               private fireBaseAuth: AngularFireAuth) {
     this.registrationForm = this.formBuilder.group({
       email: [
@@ -38,7 +40,6 @@ export class RegistrationComponent {
 
   public registration(): void {
     const data = this.registrationForm.value;
-    this.fireBaseAuth.auth.createUserWithEmailAndPassword(data.email, data.password).then( (user: firebase.User) => {
-    });
+    this.auth.registration(data.email, data.password);
   }
 }

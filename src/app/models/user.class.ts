@@ -1,4 +1,4 @@
-export class UserClass {
+export class User {
   public readonly email: string;
   public readonly roles: Roles;
 
