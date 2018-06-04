@@ -5,7 +5,8 @@ import {Observable} from 'rxjs';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {Interview} from './models';
 import {QuestionnaireService} from './services';
-import {AngularFireList} from 'angularfire2/database';
+import {CustomUser} from '../models';
+import {FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-questionnaire',
@@ -19,12 +20,17 @@ export class QuestionnaireComponent implements OnInit {
       map(result => result.matches)
     );
 
-  public interviewList: AngularFireList<Interview[]>;
+  public interviewList: Interview[];
+  public lastInterviewIndex: number;
+  public customUser: CustomUser;
+  public newInterviewControl: FormControl;
 
   constructor(private auth: AuthService,
               private breakpointObserver: BreakpointObserver,
               private questionnaireService: QuestionnaireService) {
     this.interviewList = this.questionnaireService.interviewList;
+    this.lastInterviewIndex = this.questionnaireService.lastInterviewIndex;
+    this.customUser = this.questionnaireService.customUser;
   }
 
   ngOnInit() {
@@ -45,6 +51,19 @@ export class QuestionnaireComponent implements OnInit {
   //   //
   //   //   });
   //   // }
+
+  addNewInterview() {
+    this.newInterviewControl = new FormControl('', {
+      validators: Validators.required
+    });
+  }
+
+  createInterview() {
+    this.questionnaireService.createInterview(this.lastInterviewIndex + 1, this.newInterviewControl.value).subscribe(interviewList => {
+      this.interviewList = interviewList;
+      this.newInterviewControl = undefined;
+    });
+  }
 
   logout() {
     this.auth.logout();

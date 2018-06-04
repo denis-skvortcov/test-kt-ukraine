@@ -3,6 +3,7 @@ import {InterviewForm, Question} from '../models';
 import {InterviewService} from '../services/';
 import {NavigationEnd, Router, RouterEvent} from '@angular/router';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {CustomUser} from '../../models';
 
 @Component({
   selector: 'app-interview',
@@ -13,7 +14,9 @@ export class InterviewComponent {
 
   private item: number;
   public questions: Question[];
+  public answers: string[];
   public interviewForm: FormGroup;
+  public customUser: CustomUser;
 
   constructor(private interviewService: InterviewService,
               private formBuilder: FormBuilder,
@@ -28,18 +31,18 @@ export class InterviewComponent {
   private updateModels(): void {
     this.item = this.interviewService.item;
     this.questions = this.interviewService.questions;
-    this.createForm();
+    this.answers = this.interviewService.answers;
+    this.customUser = this.interviewService.customUser;
+    if (this.interviewService.questions.length) {
+      this.createForm();
+    }
   }
 
   private createForm(): void {
-    this.interviewForm = InterviewForm.create(this.questions);
+    this.interviewForm = InterviewForm.create(this.questions, this.answers);
   }
 
   sendAnswers() {
-    // const data = {};
-    // this.interviewForm.value.forEach((answer, index) => {
-    //   data[index] = answer;
-    // });
     this.interviewService.sendAnswers(this.interviewForm.value);
   }
 }

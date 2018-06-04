@@ -18,7 +18,7 @@ import {AngularFireFunctionsModule} from 'angularfire2/functions';
 import {AngularFireStorageModule} from 'angularfire2/storage';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
-import {AuthService, NotifyService} from './services';
+import {AuthService} from './services';
 import {QuestionnaireModule} from './questionnaire/questionnaire.module';
 
 @NgModule({
@@ -48,8 +48,7 @@ import {QuestionnaireModule} from './questionnaire/questionnaire.module';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
-    AuthService,
-    NotifyService
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

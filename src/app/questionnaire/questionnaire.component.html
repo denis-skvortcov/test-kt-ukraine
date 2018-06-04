@@ -10,7 +10,29 @@
     <mat-nav-list>
       <a mat-list-item
          *ngFor="let interview of interviewList; index as i"
-         [routerLink]="['/questionnaire/interview', i]" routeConfig="{reload: true}">{{interview.name}}</a>
+         [routerLink]="['/questionnaire/interview', i]">
+        {{interview.name}}
+      </a>
+      <div *ngIf="newInterviewControl">
+        <mat-form-field class="interview-input">
+          <input matInput
+                 type="text"
+                 [formControl]="newInterviewControl"
+                 placeholder="Введите название"
+                 required>
+        </mat-form-field>
+        <button mat-button
+                *ngIf="newInterviewControl"
+                (click)="createInterview()">
+          Сохранить
+        </button>
+      </div>
+      <button mat-button
+              *ngIf="customUser.roles.manager && !newInterviewControl"
+              (click)="addNewInterview()">
+        Добавить новое интервью
+      </button>
+
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

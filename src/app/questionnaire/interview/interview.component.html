@@ -1,13 +1,17 @@
 <div class="interview">
-  <form [formGroup]="interviewForm">
-    <mat-form-field class="interview-input" *ngFor="let question of questions; index as i">
-      <input matInput
-             [type]="question.type"
-             [formControlName]="i"
-             [placeholder]="question.value">
-    </mat-form-field>
-
-    <button type="reset" color="warn" mat-button>Сброс</button>
-    <button type="button" color="primary" mat-button (click)="sendAnswers()">Отправить</button>
-  </form>
+  <div *ngIf="questions.length">
+    <form [formGroup]="interviewForm">
+      <mat-form-field class="interview-input" *ngFor="let question of questions; index as i">
+        <input matInput
+               [type]="question.type"
+               [formControlName]="i"
+               [placeholder]="question.value">
+      </mat-form-field>
+      <button type="reset" color="warn" mat-button>Сброс</button>
+      <button type="button" color="primary" mat-button (click)="sendAnswers()">Отправить</button>
+    </form>
+  </div>
+  <div *ngIf="customUser.roles.manager">
+    <button type="button" color="primary" mat-button (click)="sendAnswers()">Добавить вопрос</button>
+  </div>
 </div>

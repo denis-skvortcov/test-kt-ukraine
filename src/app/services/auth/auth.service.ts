@@ -5,7 +5,6 @@ import {Observable, of} from 'rxjs';
 import {switchMap, take} from 'rxjs/operators';
 
 import {CustomUser} from '../../models/';
-import {NotifyService} from '../';
 import {Router} from '@angular/router';
 import {AngularFireDatabase, AngularFireList, AngularFireObject} from 'angularfire2/database';
 
@@ -20,8 +19,7 @@ export class AuthService {
   constructor(private afAuth: AngularFireAuth,
               private afs: AngularFirestore,
               private db: AngularFireDatabase,
-              private router: Router,
-              private notify: NotifyService) {
+              private router: Router) {
 
     this.user = this.afAuth.authState
       .pipe(
@@ -31,7 +29,8 @@ export class AuthService {
           } else {
             return of(null);
           }
-        })
+        }),
+        take(1)
       );
   }
 
@@ -75,6 +74,5 @@ export class AuthService {
 
   private handleError(error: Error) {
     console.error(error);
-    this.notify.update(error.message, 'error');
   }
 }
