@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {CanActivate, Router} from '@angular/router';
 import {Observable, Observer, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
-import {User} from '../models';
+import {CustomUser} from '../models';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
 
@@ -11,7 +11,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 })
 export class UserIsAuthGuard implements CanActivate {
 
-  user: Observable<User | boolean>;
+  user: Observable<CustomUser | boolean>;
 
   constructor(private afAuth: AngularFireAuth,
               private db: AngularFireDatabase,

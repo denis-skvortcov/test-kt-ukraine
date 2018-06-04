@@ -1,1 +1,1 @@
-export {User} from './user.class';
+export {CustomUser} from './custom-user.class';

@@ -32,8 +32,8 @@ export class QuestionnaireComponent implements OnInit {
 
   // modefiy() {
   //   //   this.afAuth.authState.subscribe(authData => {
-  //   //     const userData = new User(authData);
-  //   //     const userRef: AngularFireObject<User> = this.db.object(`users/${authData.uid}`);
+  //   //     const userData = new CustomUser(authData);
+  //   //     const userRef: AngularFireObject<CustomUser> = this.db.object(`users/${authData.uid}`);
   //   //     userRef.valueChanges().pipe(
   //   //       take(1)
   //   //     ).subscribe(user => {

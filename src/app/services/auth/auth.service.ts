@@ -4,7 +4,7 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {Observable, of} from 'rxjs';
 import {switchMap, take} from 'rxjs/operators';
 
-import {User} from '../../models/';
+import {CustomUser} from '../../models/';
 import {NotifyService} from '../';
 import {Router} from '@angular/router';
 import {AngularFireDatabase, AngularFireList, AngularFireObject} from 'angularfire2/database';
@@ -15,7 +15,7 @@ import {AngularFireDatabase, AngularFireList, AngularFireObject} from 'angularfi
 })
 export class AuthService {
 
-  user: Observable<User | null>;
+  user: Observable<CustomUser | null>;
 
   constructor(private afAuth: AngularFireAuth,
               private afs: AngularFirestore,
@@ -57,15 +57,15 @@ export class AuthService {
   }
 
   private updateUser(authData) {
-    const userData = new User(authData);
-    const userRef: AngularFireObject<User> = this.db.object(`users/${authData.uid}`);
+    const userData = new CustomUser(authData);
+    const userRef: AngularFireObject<CustomUser> = this.db.object(`users/${authData.uid}`);
     userRef.valueChanges().pipe(
       take(1)
     ).subscribe(user => {
       if (user && user.roles) {
         this.router.navigate(['/questionnaire']);
       } else {
-        const item: AngularFireList<User> = this.db.list(`users/`);
+        const item: AngularFireList<CustomUser> = this.db.list(`users/`);
         item.set(authData.uid, userData);
         userRef.update(userData);
         this.router.navigate(['/questionnaire']);

@@ -5,7 +5,7 @@ export class Question {
 
   constructor(data: {
     value: string,
-    mask?: string,
+    mask: string,
     type: string
   }) {
     this.value = data.value;

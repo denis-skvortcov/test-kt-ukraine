@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
-import {Question} from '../models';
+import {InterviewForm, Question} from '../models';
 import {InterviewService} from '../services/';
+import {NavigationEnd, Router, RouterEvent} from '@angular/router';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-interview',
@@ -9,11 +11,35 @@ import {InterviewService} from '../services/';
 })
 export class InterviewComponent {
 
-  public item: number;
+  private item: number;
   public questions: Question[];
+  public interviewForm: FormGroup;
 
-  constructor(private interviewService: InterviewService) {
+  constructor(private interviewService: InterviewService,
+              private formBuilder: FormBuilder,
+              private router: Router) {
+    this.router.events.subscribe((event: RouterEvent) => {
+      if (event instanceof NavigationEnd) {
+        this.updateModels();
+      }
+    });
+  }
+
+  private updateModels(): void {
     this.item = this.interviewService.item;
     this.questions = this.interviewService.questions;
+    this.createForm();
+  }
+
+  private createForm(): void {
+    this.interviewForm = InterviewForm.create(this.questions);
+  }
+
+  sendAnswers() {
+    // const data = {};
+    // this.interviewForm.value.forEach((answer, index) => {
+    //   data[index] = answer;
+    // });
+    this.interviewService.sendAnswers(this.interviewForm.value);
   }
 }
