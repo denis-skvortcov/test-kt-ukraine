@@ -65,4 +65,9 @@ export class QuestionnaireService implements Resolve<null | HttpErrorResponse> {
     return this.getInterviewList();
   }
 
+  updateNameInterview(index: number, newName: string) {
+    const interviews = this.db.object(`/Interviews/${index}`);
+    interviews.update({name: newName});
+    return this.getInterviewList();
+  }
 }

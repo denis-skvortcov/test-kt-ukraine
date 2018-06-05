@@ -3,8 +3,29 @@
 }
 
 .sidenav {
-  width: 200px;
+  width: 300px;
   box-shadow: 3px 0 6px rgba(0, 0, 0, .24);
+  &-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    & .link {
+      min-width: calc(100% - 40px);
+    }
+  }
+  &-item-edit {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    & .input {
+      margin-left: 15px;
+      min-width: calc(100% - 55px);
+    }
+  }
+}
+
+.add-btn {
+  width: 100%;
 }
 
 .flex-spacer {

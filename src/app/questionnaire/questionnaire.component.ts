@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AuthService} from '../services';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
@@ -11,7 +11,8 @@ import {FormControl, Validators} from '@angular/forms';
 @Component({
   selector: 'app-questionnaire',
   templateUrl: './questionnaire.component.html',
-  styleUrls: ['./questionnaire.component.scss']
+  styleUrls: ['./questionnaire.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class QuestionnaireComponent implements OnInit {
 
@@ -24,6 +25,8 @@ export class QuestionnaireComponent implements OnInit {
   public lastInterviewIndex: number;
   public customUser: CustomUser;
   public newInterviewControl: FormControl;
+  public editNameInterviewForm: FormControl;
+  public currentIndexEditNameInterview: number;
 
   constructor(private auth: AuthService,
               private breakpointObserver: BreakpointObserver,
@@ -58,10 +61,26 @@ export class QuestionnaireComponent implements OnInit {
     });
   }
 
+  createFormEditNameInterview(index) {
+    this.currentIndexEditNameInterview = index;
+    this.editNameInterviewForm = new FormControl(this.interviewList[index].name, {
+      validators: Validators.compose([Validators.minLength(2), Validators.required])
+    });
+  }
+
   createInterview() {
     this.questionnaireService.createInterview(this.lastInterviewIndex + 1, this.newInterviewControl.value).subscribe(interviewList => {
       this.interviewList = interviewList;
       this.newInterviewControl = undefined;
+    });
+  }
+
+  editNameInterview() {
+
+    this.questionnaireService.updateNameInterview(this.currentIndexEditNameInterview, this.editNameInterviewForm.value).subscribe((interviewList) => {
+      this.interviewList = interviewList;
+      this.currentIndexEditNameInterview = null;
+      this.editNameInterviewForm = undefined;
     });
   }
 
