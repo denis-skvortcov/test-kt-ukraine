@@ -1,21 +1,22 @@
 <div class="auth">
-  <form [formGroup]="authForm"
+  <form class="auth-form"
+        [formGroup]="authForm"
         (submit)="login()">
-    <mat-form-field>
+    <mat-form-field class="input">
       <input type="email"
              matInput
              placeholder="Email"
              formControlName="email"
              required>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="input">
       <input type="password"
              matInput
              placeholder="Password"
              formControlName="password"
              required>
     </mat-form-field>
-    <button mat-button color="primary" type="submit">Sing In</button>
+    <button mat-button color="primary" type="submit">Войти</button>
   </form>
-  <button mat-button color="success" type="button" [routerLink]="['/registration']">Registration</button>
+  <button mat-button color="success" type="button" [routerLink]="['/registration']">Зарегистрироваться</button>
 </div>
