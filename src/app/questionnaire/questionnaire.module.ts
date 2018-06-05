@@ -6,6 +6,7 @@ import {InterviewComponent} from './interview/interview.component';
 import {InterviewService, QuestionnaireService} from './services';
 import {QuestionnaireRoutingModule} from './questionnaire-routing.module';
 import {ReactiveFormsModule} from '@angular/forms';
+import { AnswersComponent } from './answers/answers.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import {ReactiveFormsModule} from '@angular/forms';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
     QuestionnaireComponent,
-    InterviewComponent
+    InterviewComponent,
+    AnswersComponent
   ]
 })
 export class QuestionnaireModule {

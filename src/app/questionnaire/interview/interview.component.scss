@@ -1,6 +1,25 @@
 .interview {
-  width: 400px;
-  &-input {
-    width: 100%;
+  &-questions {
+    width: 400px;
+    & .input {
+      width: 100%;
+    }
+  }
+  &-edit-questions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    & .form {
+      //display: flex;
+      //flex-direction: row;
+      width: 400px;
+      margin-left: 15px;
+      &-input {
+        width: 100%;
+      }
+    }
+    & .new-string {
+      width: 100%;
+    }
   }
 }

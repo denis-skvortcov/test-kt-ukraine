@@ -19,6 +19,15 @@
     justify-content: space-between;
     & .input {
       margin-left: 15px;
+      min-width: calc(100% - 95px);
+    }
+  }
+  &-item-add {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    & .input {
+      margin-left: 15px;
       min-width: calc(100% - 55px);
     }
   }

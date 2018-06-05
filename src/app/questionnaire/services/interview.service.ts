@@ -66,11 +66,30 @@ export class InterviewService implements Resolve<null | HttpErrorResponse> {
     });
   }
 
-  sendAnswers(data) {
+  sendAnswers(data): void {
     const interview: AngularFireList<string[]> = this.db.list(`answers/${this.item}/`);
     interview.set(this.userAuth.uid, data);
     this.answersRef.update(data);
     const nextInterview = this.item + 1;
     this.router.navigate(['/questionnaire/interview', nextInterview > this.lastInterviewIndex ? 0 : nextInterview]);
+  }
+
+  saveQuestion(index: number, question): void {
+    const questionRef = this.db.object(`/Interviews/${this.item}/questions`);
+    questionRef.update({[index]: question});
+  }
+
+  deleteQuestion(index: number): void {
+    const questionRef = this.db.object(`/Interviews/${this.item}/questions/${index}`);
+    questionRef.remove();
+    this.updateQuestions(index);
+  }
+
+  updateQuestions(index: number): void {
+    const questionsRef = this.db.object(`/Interviews/${this.item}/questions`);
+    this.questions.splice(index, 1);
+    questionsRef.remove();
+    questionsRef.set(this.questions);
+    this.questionnaireService.updateInterviewList();
   }
 }

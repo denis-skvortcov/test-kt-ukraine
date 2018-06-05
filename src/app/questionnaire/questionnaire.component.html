@@ -9,7 +9,7 @@
     <mat-toolbar color="primary">Menu</mat-toolbar>
     <mat-nav-list>
       <div *ngFor="let interview of interviewList; index as i">
-        <div class="sidenav-item" *ngIf="i !== currentIndexEditNameInterview">
+        <div class="sidenav-item" *ngIf="i !== currentIndexEditInterview">
           <a mat-list-item
              class="link"
              [routerLink]="['/questionnaire/interview', i]">
@@ -19,7 +19,7 @@
             <mat-icon>edit</mat-icon>
           </button>
         </div>
-        <div class="sidenav-item-edit" *ngIf="i === currentIndexEditNameInterview">
+        <div class="sidenav-item-edit" *ngIf="i === currentIndexEditInterview">
           <mat-form-field class="input">
             <input matInput
                    type="text"
@@ -27,12 +27,15 @@
                    placeholder="Введите название"
                    required>
           </mat-form-field>
-          <button mat-icon-button type="button" (click)="editNameInterview()">
+          <button mat-icon-button type="button" color="primary" (click)="editNameInterview()">
             <mat-icon>save</mat-icon>
+          </button>
+          <button mat-icon-button type="button" color="warn" (click)="deleteInterview()">
+            <mat-icon>delete</mat-icon>
           </button>
         </div>
       </div>
-      <div class="sidenav-item-edit" *ngIf="newInterviewControl">
+      <div class="sidenav-item-add" *ngIf="newInterviewControl">
         <mat-form-field class="input">
           <input matInput
                  type="text"
@@ -40,7 +43,7 @@
                  placeholder="Введите название"
                  required>
         </mat-form-field>
-        <button mat-icon-button type="button" *ngIf="newInterviewControl" (click)="createInterview()">
+        <button mat-icon-button type="button" color="primary" *ngIf="newInterviewControl" (click)="createInterview()">
           <mat-icon>save</mat-icon>
         </button>
       </div>

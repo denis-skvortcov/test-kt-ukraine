@@ -2,7 +2,8 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {QuestionnaireComponent} from './questionnaire.component';
 import {InterviewComponent} from './interview/interview.component';
-import {InterviewService} from './services';
+import {AnswersService, InterviewService} from './services';
+import {AnswersComponent} from './answers/answers.component';
 
 const routes: Routes = [
   {
@@ -17,9 +18,15 @@ const routes: Routes = [
       {
         path: 'interview/:item',
         component: InterviewComponent,
-        runGuardsAndResolvers: 'always',
         resolve: {
           setup: InterviewService
+        }
+      },
+      {
+        path: 'answers',
+        component: AnswersComponent,
+        resolve: {
+          setup: AnswersService
         }
       }
     ]

@@ -24,15 +24,14 @@ export class QuestionnaireService implements Resolve<null | HttpErrorResponse> {
   resolve(route: ActivatedRouteSnapshot): Observable<null | HttpErrorResponse> {
     return Observable.create((observer: Observer<null | HttpErrorResponse>) => {
       forkJoin(
-        this.getInterviewList()
-      ).subscribe(([interviewList]) => {
+        this.getInterviewList(),
+        this.authService.user
+      ).subscribe(([interviewList, customUser]) => {
         this.interviewList = interviewList;
         this.lastInterviewIndex = this.interviewList.length - 1;
-        this.authService.user.subscribe(customUser => {
-          this.customUser = customUser;
-          observer.next(null);
-          observer.complete();
-        });
+        this.customUser = customUser;
+        observer.next(null);
+        observer.complete();
       }, (errorResponse: HttpErrorResponse) => {
         observer.error(errorResponse);
         observer.complete();
@@ -48,12 +47,22 @@ export class QuestionnaireService implements Resolve<null | HttpErrorResponse> {
       );
   }
 
+  updateInterviewList(): Observable<Interview[]> {
+    return this.db.list('/Interviews/').valueChanges()
+      .pipe(
+        map((interviews: Interview[]) => {
+          return this.interviewList = interviews.map(interview => new Interview(interview));
+        }),
+        take(1)
+      );
+  }
+
   createInterview(interviewIndex: number, interviewName: string): Observable<Interview[]> {
     const interviews = this.db.list('/Interviews/');
     interviews.set(`${interviewIndex}`, {
       name: interviewName,
-      date: new Date(),
-      dateEnd: new Date(),
+      date: new Date().toISOString(),
+      dateEnd: new Date().toISOString(),
       questions: [
         {
           value: 'Добавьте первый',
@@ -62,12 +71,20 @@ export class QuestionnaireService implements Resolve<null | HttpErrorResponse> {
         }
       ]
     });
-    return this.getInterviewList();
+    return this.updateInterviewList();
   }
 
   updateNameInterview(index: number, newName: string) {
     const interviews = this.db.object(`/Interviews/${index}`);
     interviews.update({name: newName});
-    return this.getInterviewList();
+    return this.updateInterviewList();
   }
+
+  deleteInterview(index: number): Promise<void> {
+    const interviewRef = this.db.object(`/Interviews`);
+    interviewRef.remove();
+    this.interviewList.splice(index, 1);
+    return interviewRef.set(this.interviewList);
+  }
+
 }
